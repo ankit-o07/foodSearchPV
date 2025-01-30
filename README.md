@@ -10,6 +10,18 @@ A web application built with **FastAPI** to search for food items from the FatSe
 - **Food Details**: Each food item links to a detailed page where more information can be found.
 - **Dynamic Result Range**: Displays the range of results shown, such as `1 to 20 of 100`.
 
+## Screenshots
+
+### Home Page
+
+![Home Page]![alt text](foodsearch1.png)
+
+The home page where users can search for food items.
+
+### Search Results
+
+![Search Results]![alt text](foodsearch2.png)
+
 ## Tech Stack
 
 - **Backend**: FastAPI
@@ -82,4 +94,5 @@ venv/
 # Environment Variables
 .env
 
+#
 
