@@ -6,7 +6,7 @@ __pycache__/
 
 # Virtual environment directories
 venv/
-.env/
+
 
 # Uvicorn log files
 *.log
@@ -17,7 +17,6 @@ venv/
 *.swp
 
 # Environment variable files
-.env
 
 
 
