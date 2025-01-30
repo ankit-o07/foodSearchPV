@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #results {
+            margin-top: 20px;
+        }
+        .food-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px auto;
+            width: 80%;
+            text-align: left;
+        }
+        select {
+            padding: 5px;
+            margin: 10px 0;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+        .pagination button {
+            padding: 10px;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        .pagination button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #resultRange {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Food Search</h1>
+    <input type="text" id="search" placeholder="Enter food name...">
+    <button onclick="searchFood()">Search</button>
+    
+    <div>
+        <label for="resultsPerPage">Results per page: </label>
+        <select id="resultsPerPage" onchange="searchFood()">
+            <option value="10">10 per page</option>
+            <option value="20">20 per page</option>
+            <option value="30">30 per page</option>
+            <option value="40">40 per page</option>
+            <option value="50">50 per page</option>
+        </select>
+    </div>
+    <div id="resultRange"></div>
+    <div id="results"></div>
+
+    
+
+    <div class="pagination">
+        <button id="prevPage" onclick="changePage('prev')" disabled>Previous</button>
+        <span id="current_page"></span> 
+        <button id="nextPage" onclick="changePage('next')" disabled>Next</button>
+    </div>
+
+    <script>
+        let currentPage = 0;
+        let resultsPerPage = 10;  
+        let totalResults = 0;
+
+        async function searchFood() {
+            const searchExpression = document.getElementById("search").value;
+            resultsPerPage = document.getElementById("resultsPerPage").value;
+
+            if (!searchExpression) {
+                alert("Please enter a food name.");
+                return;
+            }
+
+            const response = await fetch(`/food/search/?search_expression=${searchExpression}&max_results=${resultsPerPage}&page_number=${currentPage}`);
+            const data = await response.json();
+
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = ""; 
+            
+            
+            console.log(data.foods.total_results); 
+            console.log(data.foods.max_results); 
+            console.log(data.foods.page_number);
+            
+            if (data.foods && data.foods.food) {
+                totalResults = data.foods.total_results;
+                data.foods.food.forEach(food => {
+                    const foodDiv = document.createElement("div");
+                    foodDiv.className = "food-item";
+                    foodDiv.innerHTML = ` 
+                        <h3>${food.food_name}</h3>
+                        <p>${food.food_description}</p>
+                        <a href="food/${food.food_id}" target="_blank">View Details</a>
+                    `;
+                    resultsDiv.appendChild(foodDiv);
+                });
+            } else {
+                resultsDiv.innerHTML = "<p>No results found.</p>";
+            }
+
+            updatePaginationButtons();
+            updateResultRange();  
+        }
+
+        function changePage(direction) {
+            if (direction === "next") {
+                currentPage++;
+            } else if (direction === "prev") {
+                currentPage--;
+            }
+            searchFood();
+        }
+
+        function updatePaginationButtons() {
+            const prevButton = document.getElementById("prevPage");
+            const nextButton = document.getElementById("nextPage");
+
+            prevButton.disabled = currentPage === 0;
+            nextButton.disabled = totalResults <= (currentPage + 1) * resultsPerPage; 
+        }
+
+        function updateResultRange() {
+            const startResult = currentPage * resultsPerPage + 1;
+            const endResult = Math.min((currentPage + 1) * resultsPerPage, totalResults);
+            const resultRangeDiv = document.getElementById("resultRange");
+
+            resultRangeDiv.innerHTML = `${startResult} to ${endResult} of ${totalResults}`;
+            
+            
+            document.getElementById("current_page").innerText = `Page ${currentPage + 1}`;
+        }
+    </script>
+</body>
+</html>

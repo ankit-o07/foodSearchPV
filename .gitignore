@@ -1,0 +1,32 @@
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment directories
+venv/
+.env/
+
+# Uvicorn log files
+*.log
+
+# IDE/editor specific files
+.vscode/
+.idea/
+*.swp
+
+# Environment variable files
+.env
+
+
+
+# Static files (if you don't want them tracked in git)
+static/
+
+# Database files (if using SQLite or any local DB)
+*.db
+
+# Other temporary files
+*.bak
+*.tmp

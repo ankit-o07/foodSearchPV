@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        .food-item {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 10px auto;
+            width: 80%;
+            text-align: left;
+        }
+        .json-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: left;
+            background: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        pre {
+            white-space: pre-wrap; 
+            word-wrap: break-word;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Food Details</h1>
+    <div class="food-item">
+        <h3>{{ food.food_name }}</h3>
+        <p>Type: {{ food.food_type }}</p>
+        <a href="{{ food.food_url }}" target="_blank">View More</a>
+        <h4>Nutritional Information</h4>
+        <ul>
+            {% for serving in food.servings.serving %}
+                <li>{{ serving.serving_description }} - {{ serving.calories }} Calories</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <h2>JSON Response</h2>
+    <div class="json-container">
+        <pre>{{ food_json | tojson(indent=2) }}</pre>
+    </div>
+</body>
+</html>
