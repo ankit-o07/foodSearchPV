@@ -34,11 +34,11 @@ The home page where users can search for food items.
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/food-search-app.git
+git clone https://github.com/ankit-o07/foodSearchPV.git
 ```
 2.	Navigate into the project directory:
 ```bash
-cd food-search-app
+cd foodSearchPV
 ```
 3.	Create a virtual environment and activate it:
 
